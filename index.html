@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Tienda de Santería "El Rincón de los Orishas"</title>
+    <style>
+        /* Estilos CSS */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #5d4037;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        nav ul {
+            padding: 0;
+            list-style: none;
+            display: flex;
+            
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .product-details {
+            padding: 15px;
+        }
+        .product-details h3 {
+            margin: 10px 0;
+            font-size: 1.5rem;
+            color: #4a2a1a;
+        }
+        .product-details p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #666;
+        }
+        .product-details .price {
+            font-size: 1.4rem;
+            color: #8d6e63;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .add-to-cart {
+            background-color: #8d6e63;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .add-to-cart:hover {
+            background-color: #6d4c41;
+        }
+        footer {
+            background-color: #5d4037;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>El Rincón de los Orishas</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Productos</a></li>
+                <li><a href="#">Contacto</a></li>
+                <li><a href="#">Carrito (0)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        </main>
+
+    <footer>
+        <p>&copy; 2025 El Rincón de los Orishas. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Datos de productos
+        const products = [
+            { id: 1, name: 'Elegguá', description: 'Representa los caminos y el destino. Protector de las encrucijadas.', price: 25.00, image: 'https://via.placeholder.com/400x400/8d6e63/fff?text=Elegguá' },
+            { id: 2, name: 'Oshún', description: 'Diosa de los ríos, el amor y la fertilidad. Símbolo de la dulzura.', price: 35.50, image: 'https://via.placeholder.com/400x400/ffe082/333?text=Oshún' },
+            { id: 3, name: 'Yemayá', description: 'Madre de las aguas. Orisha del mar y la maternidad.', price: 40.00, image: 'https://via.placeholder.com/400x400/42a5f5/fff?text=Yemayá' },
+            { id: 4, name: 'Shangó', description: 'Deidad del trueno, el rayo y la justicia. Representa la pasión y el poder.', price: 30.25, image: 'https://via.placeholder.com/400x400/d32f2f/fff?text=Shangó' },
+            { id: 5, name: 'Obatalá', description: 'Padre de todos los Orishas. Representa la paz, la sabiduría y la pureza.', price: 45.00, image: 'https://via.placeholder.com/400x400/e0e0e0/333?text=Obatalá' },
+            { id: 6, name: 'Oggún', description: 'Orisha del hierro, el trabajo y la guerra. Guerrero incansable.', price: 28.75, image: 'https://via.placeholder.com/400x400/4e342e/fff?text=Oggún' },
+            { id: 7, name: 'Oyá', description: 'Diosa de la tormenta y el cementerio. Orisha guerrera y poderosa.', price: 32.50, image: 'https://via.placeholder.com/400x400/616161/fff?text=Oyá' },
+            { id: 8, name: 'Orula', description: 'El gran adivino. Orisha de la sabiduría y el conocimiento.', price: 50.00, image: 'https://via.placeholder.com/400x400/bcaaa4/333?text=Orula' }
+        ];
+
+        const mainContainer = document.querySelector('.container');
+
+        // Función para renderizar los productos
+        function renderProducts() {
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-card');
+
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <div class="product-details">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <p class="price">$${product.price.toFixed(2)}</p>
+                        <button class="add-to-cart" data-id="${product.id}">Añadir al Carrito</button>
+                    </div>
+                `;
+                mainContainer.appendChild(productCard);
+            });
+        }
+
+        // Llamar a la función para mostrar los productos
+        document.addEventListener('DOMContentLoaded', renderProducts);
+
+        // Lógica del carrito (simplificada)
+        let cart = [];
+        const cartCount = document.querySelector('nav a:last-child');
+
+        mainContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart')) {
+                const productId = parseInt(e.target.dataset.id);
+                const productToAdd = products.find(p => p.id === productId);
+
+                if (productToAdd) {
+                    cart.push(productToAdd);
+                    alert(`¡${productToAdd.name} ha sido añadido al carrito!`);
+                    updateCartCount();
+                }
+            }
+        });
+
+        function updateCartCount() {
+            cartCount.textContent = `Carrito (${cart.length})`;
+        }
+    </script>
+
+</body>
+</html>
