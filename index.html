@@ -4,24 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo - Tienda de Santería "Boa Sorte"</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         /* Estilos CSS */
+        :root {
+            --primary-color: #5c007a;
+            --accent-color: #a300ff;
+            --light-bg: #f8f0fc;
+            --text-color: #333;
+            --light-text-color: #fff;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f0fc; /* Un lila muy claro */
-            color: #333;
+            background-color: var(--light-bg);
+            color: var(--text-color);
         }
         header {
-            background-color: #5c007a; /* Violeta oscuro principal */
-            color: #fff;
-            padding: 1rem 0;
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 1.5rem 0;
             text-align: center;
         }
         header h1 {
             margin: 0;
             font-size: 2.5rem;
+            font-weight: 700;
             letter-spacing: 2px;
         }
         nav ul {
@@ -33,25 +45,44 @@
             margin-top: 10px;
         }
         nav a {
-            color: #fff;
+            color: var(--light-text-color);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 1.1rem;
             transition: color 0.3s ease;
         }
         nav a:hover {
-            color: #e0b0ff; /* Violeta más claro para hover */
+            color: #e0b0ff;
         }
-        .container {
+        
+        .section-container {
             max-width: 1200px;
             margin: 30px auto;
             padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+        }
+        .product-section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding-bottom: 20px;
+            -webkit-overflow-scrolling: touch; /* Para un scroll más suave en móviles */
+        }
+        .horizontal-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+        .horizontal-scroll::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border-radius: 10px;
         }
         .product-card {
-            background-color: #fff;
+            min-width: 280px;
+            background-color: var(--light-text-color);
             border-radius: 12px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
             overflow: hidden;
@@ -73,35 +104,171 @@
         }
         .product-details h3 {
             margin: 10px 0;
-            font-size: 1.6rem;
-            color: #7d00a3; /* Violeta medio */
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #7d00a3;
         }
         .product-details p {
-            font-size: 1rem;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            line-height: 1.5;
             color: #555;
-            min-height: 60px; /* Para mantener altura consistente */
+            min-height: 45px;
         }
         .product-details .price {
             font-size: 1.5rem;
-            color: #a300ff; /* Violeta vibrante */
-            font-weight: bold;
+            color: var(--accent-color);
+            font-weight: 700;
             margin: 15px 0;
         }
         .add-to-cart {
-            background-color: #8a2be2; /* Azul violeta */
-            color: #fff;
+            background-color: var(--accent-color);
+            color: var(--light-text-color);
             border: none;
             padding: 12px 25px;
             border-radius: 7px;
             cursor: pointer;
             font-size: 1.05rem;
-            font-weight: bold;
+            font-weight: 600;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
         .add-to-cart:hover {
-            background-color: #6a0fd4; /* Violeta más oscuro al pasar el ratón */
+            background-color: #8a2be2;
             transform: translateY(-2px);
+        }
+        footer {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Boa Sorte</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Productos</a></li>
+                <li><a href="#">Contacto</a></li>
+                <li><a href="#" id="cart-link">Carrito (0)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="section-container">
+        <section class="product-section">
+            <h2>Velas y Velones</h2>
+            <div class="horizontal-scroll" id="candles-section"></div>
+        </section>
+        
+        <section class="product-section">
+            <h2>Inciensos y Defumadores</h2>
+            <div class="horizontal-scroll" id="incense-section"></div>
+        </section>
+
+        <section class="product-section">
+            <h2>Esencias y Aceites</h2>
+            <div class="horizontal-scroll" id="oils-section"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Boa Sorte. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Datos de productos clasificados por tipo
+        const products = {
+            candles: [
+                { id: 1, name: 'Vela de Siete Potencias', description: 'Para invocar la fuerza y la protección de las 7 Potencias Africanas.', price: 12.50, image: 'https://via.placeholder.com/400x400/9370db/fff?text=Vela+7+Potencias' },
+                { id: 2, name: 'Velón de Abre Caminos', description: 'Ayuda a disipar obstáculos y atraer nuevas oportunidades.', price: 18.00, image: 'https://via.placeholder.com/400x400/ba55d3/fff?text=Velón+Abre+Caminos' },
+                { id: 3, name: 'Vela de San Miguel Arcángel', description: 'Protección divina, coraje y fuerza espiritual.', price: 10.00, image: 'https://via.placeholder.com/400x400/7b68ee/fff?text=Vela+San+Miguel' },
+                { id: 4, name: 'Velón de Amor y Unión', description: 'Para fortalecer lazos afectivos y atraer el amor verdadero.', price: 20.00, image: 'https://via.placeholder.com/400x400/dda0dd/fff?text=Velón+Amor' },
+            ],
+            incense: [
+                { id: 5, name: 'Incienso de Ruda y Romero', description: 'Purificación y protección contra energías negativas.', price: 7.99, image: 'https://via.placeholder.com/400x400/b19cd9/333?text=Incienso+Ruda' },
+                { id: 6, name: 'Defumador de Limpieza Energética', description: 'Mezcla especial para limpiar ambientes y atraer la buena suerte.', price: 15.00, image: 'https://via.placeholder.com/400x400/c3b1e3/333?text=Defumador' },
+                { id: 7, name: 'Incienso de Sándalo', description: 'Para la meditación, la calma y la elevación espiritual.', price: 6.50, image: 'https://via.placeholder.com/400x400/e6e6fa/333?text=Incienso+Sándalo' },
+                { id: 8, name: 'Palo Santo (Unidad)', description: 'Madera sagrada para purificación y limpieza de energías.', price: 5.00, image: 'https://via.placeholder.com/400x400/bbbbbb/fff?text=Palo+Santo' },
+            ],
+            oils: [
+                { id: 9, name: 'Esencia de Dinero y Abundancia', description: 'Aceite concentrado para atraer prosperidad económica.', price: 11.50, image: 'https://via.placeholder.com/400x400/ffd700/333?text=Esencia+Dinero' },
+                { id: 10, name: 'Hierbas para Baño de Descarga', description: 'Mezcla de hierbas para baños rituales de limpieza.', price: 9.25, image: 'https://via.placeholder.com/400x400/d8bfd8/333?text=Hierbas+Descarga' },
+            ]
+        };
+
+        const cartLink = document.getElementById('cart-link');
+        let cart = [];
+
+        // Función para crear la tarjeta de un producto
+        function createProductCard(product) {
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+
+            productCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <div class="product-details">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p class="price">$${product.price.toFixed(2)}</p>
+                    <button class="add-to-cart" data-id="${product.id}">Añadir al Carrito</button>
+                </div>
+            `;
+            return productCard;
+        }
+
+        // Función para renderizar los productos por categoría
+        function renderProducts() {
+            const candlesSection = document.getElementById('candles-section');
+            products.candles.forEach(product => {
+                candlesSection.appendChild(createProductCard(product));
+            });
+
+            const incenseSection = document.getElementById('incense-section');
+            products.incense.forEach(product => {
+                incenseSection.appendChild(createProductCard(product));
+            });
+            
+            const oilsSection = document.getElementById('oils-section');
+            products.oils.forEach(product => {
+                oilsSection.appendChild(createProductCard(product));
+            });
+        }
+
+        // Lógica para añadir al carrito
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart')) {
+                const productId = parseInt(e.target.dataset.id);
+                let productToAdd = null;
+
+                // Buscar el producto en todas las categorías
+                for (const category in products) {
+                    productToAdd = products[category].find(p => p.id === productId);
+                    if (productToAdd) break;
+                }
+
+                if (productToAdd) {
+                    cart.push(productToAdd);
+                    alert(`¡${productToAdd.name} ha sido añadido al carrito!`);
+                    updateCartCount();
+                }
+            }
+        });
+
+        function updateCartCount() {
+            cartLink.textContent = `Carrito (${cart.length})`;
+        }
+
+        // Renderizar los productos al cargar la página
+        document.addEventListener('DOMContentLoaded', renderProducts);
+    </script>
+
+</body>
+</html>
         }
         footer {
             background-color: #5c007a; /* Violeta oscuro principal */
