@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo - Tienda de Santería "El Rincón de los Orishas"</title>
+    <title>Catálogo - Tienda de Santería "Boa Sorte"</title>
     <style>
         /* Estilos CSS */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f8f0fc; /* Un lila muy claro */
             color: #333;
         }
         header {
-            background-color: #5d4037;
+            background-color: #5c007a; /* Violeta oscuro principal */
             color: #fff;
             padding: 1rem 0;
             text-align: center;
@@ -22,14 +22,14 @@
         header h1 {
             margin: 0;
             font-size: 2.5rem;
+            letter-spacing: 2px;
         }
         nav ul {
             padding: 0;
             list-style: none;
             display: flex;
-            
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             margin-top: 10px;
         }
         nav a {
@@ -37,82 +37,92 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #e0b0ff; /* Violeta más claro para hover */
         }
         .container {
             max-width: 1200px;
-            margin: 20px auto;
+            margin: 30px auto;
             padding: 0 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
         .product-card {
             background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
             overflow: hidden;
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .product-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
         .product-card img {
             width: 100%;
             height: 250px;
             object-fit: cover;
+            border-bottom: 1px solid #eee;
         }
         .product-details {
-            padding: 15px;
+            padding: 20px;
         }
         .product-details h3 {
             margin: 10px 0;
-            font-size: 1.5rem;
-            color: #4a2a1a;
+            font-size: 1.6rem;
+            color: #7d00a3; /* Violeta medio */
         }
         .product-details p {
             font-size: 1rem;
-            line-height: 1.5;
-            color: #666;
+            line-height: 1.6;
+            color: #555;
+            min-height: 60px; /* Para mantener altura consistente */
         }
         .product-details .price {
-            font-size: 1.4rem;
-            color: #8d6e63;
+            font-size: 1.5rem;
+            color: #a300ff; /* Violeta vibrante */
             font-weight: bold;
-            margin: 10px 0;
+            margin: 15px 0;
         }
         .add-to-cart {
-            background-color: #8d6e63;
+            background-color: #8a2be2; /* Azul violeta */
             color: #fff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 25px;
+            border-radius: 7px;
             cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
+            font-size: 1.05rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         .add-to-cart:hover {
-            background-color: #6d4c41;
+            background-color: #6a0fd4; /* Violeta más oscuro al pasar el ratón */
+            transform: translateY(-2px);
         }
         footer {
-            background-color: #5d4037;
+            background-color: #5c007a; /* Violeta oscuro principal */
             color: #fff;
             text-align: center;
-            padding: 1rem 0;
-            margin-top: 30px;
+            padding: 1.5rem 0;
+            margin-top: 40px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>El Rincón de los Orishas</h1>
+        <h1>Boa Sorte</h1>
         <nav>
             <ul>
                 <li><a href="#">Inicio</a></li>
                 <li><a href="#">Productos</a></li>
                 <li><a href="#">Contacto</a></li>
-                <li><a href="#">Carrito (0)</a></li>
+                <li><a href="#" id="cart-link">Carrito (0)</a></li>
             </ul>
         </nav>
     </header>
@@ -121,26 +131,30 @@
         </main>
 
     <footer>
-        <p>&copy; 2025 El Rincón de los Orishas. Todos los derechos reservados.</p>
+        <p>&copy; 2025 Boa Sorte. Todos los derechos reservados.</p>
     </footer>
 
     <script>
         // Datos de productos
         const products = [
-            { id: 1, name: 'Elegguá', description: 'Representa los caminos y el destino. Protector de las encrucijadas.', price: 25.00, image: 'https://via.placeholder.com/400x400/8d6e63/fff?text=Elegguá' },
-            { id: 2, name: 'Oshún', description: 'Diosa de los ríos, el amor y la fertilidad. Símbolo de la dulzura.', price: 35.50, image: 'https://via.placeholder.com/400x400/ffe082/333?text=Oshún' },
-            { id: 3, name: 'Yemayá', description: 'Madre de las aguas. Orisha del mar y la maternidad.', price: 40.00, image: 'https://via.placeholder.com/400x400/42a5f5/fff?text=Yemayá' },
-            { id: 4, name: 'Shangó', description: 'Deidad del trueno, el rayo y la justicia. Representa la pasión y el poder.', price: 30.25, image: 'https://via.placeholder.com/400x400/d32f2f/fff?text=Shangó' },
-            { id: 5, name: 'Obatalá', description: 'Padre de todos los Orishas. Representa la paz, la sabiduría y la pureza.', price: 45.00, image: 'https://via.placeholder.com/400x400/e0e0e0/333?text=Obatalá' },
-            { id: 6, name: 'Oggún', description: 'Orisha del hierro, el trabajo y la guerra. Guerrero incansable.', price: 28.75, image: 'https://via.placeholder.com/400x400/4e342e/fff?text=Oggún' },
-            { id: 7, name: 'Oyá', description: 'Diosa de la tormenta y el cementerio. Orisha guerrera y poderosa.', price: 32.50, image: 'https://via.placeholder.com/400x400/616161/fff?text=Oyá' },
-            { id: 8, name: 'Orula', description: 'El gran adivino. Orisha de la sabiduría y el conocimiento.', price: 50.00, image: 'https://via.placeholder.com/400x400/bcaaa4/333?text=Orula' }
+            { id: 1, name: 'Vela de Siete Potencias', description: 'Para invocar la fuerza y la protección de las 7 Potencias Africanas.', price: 12.50, image: 'https://via.placeholder.com/400x400/9370db/fff?text=Vela+7+Potencias' },
+            { id: 2, name: 'Velón de Abre Caminos', description: 'Ayuda a disipar obstáculos y atraer nuevas oportunidades.', price: 18.00, image: 'https://via.placeholder.com/400x400/ba55d3/fff?text=Velón+Abre+Caminos' },
+            { id: 3, name: 'Incienso de Ruda y Romero', description: 'Purificación y protección contra energías negativas. Aroma herbal.', price: 7.99, image: 'https://via.placeholder.com/400x400/b19cd9/333?text=Incienso+Ruda' },
+            { id: 4, name: 'Defumador de Limpieza Energética', description: 'Mezcla especial para limpiar ambientes y atraer la buena suerte.', price: 15.00, image: 'https://via.placeholder.com/400x400/c3b1e3/333?text=Defumador' },
+            { id: 5, name: 'Vela de San Miguel Arcángel', description: 'Protección divina, coraje y fuerza espiritual.', price: 10.00, image: 'https://via.placeholder.com/400x400/7b68ee/fff?text=Vela+San+Miguel' },
+            { id: 6, name: 'Velón de Amor y Unión', description: 'Para fortalecer lazos afectivos y atraer el amor verdadero.', price: 20.00, image: 'https://via.placeholder.com/400x400/dda0dd/fff?text=Velón+Amor' },
+            { id: 7, name: 'Incienso de Sándalo', description: 'Para la meditación, la calma y la elevación espiritual.', price: 6.50, image: 'https://via.placeholder.com/400x400/e6e6fa/333?text=Incienso+Sándalo' },
+            { id: 8, name: 'Hierbas para Baño de Descarga', description: 'Mezcla de hierbas para baños rituales de limpieza y purificación.', price: 9.25, image: 'https://via.placeholder.com/400x400/d8bfd8/333?text=Hierbas+Descarga' },
+            { id: 9, name: 'Palo Santo (Unidad)', description: 'Madera sagrada para purificación, limpieza y atraer energías positivas.', price: 5.00, image: 'https://via.placeholder.com/400x400/bbbbbb/fff?text=Palo+Santo' },
+            { id: 10, name: 'Esencia de Dinero y Abundancia', description: 'Aceite concentrado para atraer prosperidad económica.', price: 11.50, image: 'https://via.placeholder.com/400x400/ffd700/333?text=Esencia+Dinero' }
         ];
 
         const mainContainer = document.querySelector('.container');
+        const cartLink = document.getElementById('cart-link');
 
         // Función para renderizar los productos
         function renderProducts() {
+            mainContainer.innerHTML = ''; // Limpiar productos existentes si los hubiera
             products.forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.classList.add('product-card');
@@ -158,12 +172,11 @@
             });
         }
 
-        // Llamar a la función para mostrar los productos
+        // Llamar a la función para mostrar los productos cuando el DOM esté cargado
         document.addEventListener('DOMContentLoaded', renderProducts);
 
         // Lógica del carrito (simplificada)
         let cart = [];
-        const cartCount = document.querySelector('nav a:last-child');
 
         mainContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('add-to-cart')) {
@@ -179,7 +192,7 @@
         });
 
         function updateCartCount() {
-            cartCount.textContent = `Carrito (${cart.length})`;
+            cartLink.textContent = `Carrito (${cart.length})`;
         }
     </script>
 
