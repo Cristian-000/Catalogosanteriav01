@@ -88,6 +88,9 @@
             overflow: hidden;
             text-align: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .product-card:hover {
             transform: translateY(-8px);
@@ -101,6 +104,10 @@
         }
         .product-details {
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
         }
         .product-details h3 {
             margin: 10px 0;
@@ -113,12 +120,28 @@
             line-height: 1.5;
             color: #555;
             min-height: 45px;
+            margin-bottom: 10px;
         }
         .product-details .price {
             font-size: 1.5rem;
             color: var(--accent-color);
             font-weight: 700;
-            margin: 15px 0;
+            margin: 10px 0;
+        }
+        .quantity-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .quantity-control input {
+            width: 60px;
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
         }
         .add-to-cart {
             background-color: var(--accent-color);
@@ -203,6 +226,7 @@
 
         const cartLink = document.getElementById('cart-link');
         let cart = [];
+        const allProducts = [...products.candles, ...products.incense, ...products.oils];
 
         // Función para crear la tarjeta de un producto
         function createProductCard(product) {
@@ -215,6 +239,10 @@
                     <h3>${product.name}</h3>
                     <p>${product.description}</p>
                     <p class="price">$${product.price.toFixed(2)}</p>
+                    <div class="quantity-control">
+                        <label for="qty-${product.id}">Cantidad:</label>
+                        <input type="number" id="qty-${product.id}" value="1" min="1">
+                    </div>
                     <button class="add-to-cart" data-id="${product.id}">Añadir al Carrito</button>
                 </div>
             `;
@@ -243,18 +271,19 @@
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('add-to-cart')) {
                 const productId = parseInt(e.target.dataset.id);
-                let productToAdd = null;
+                const quantityInput = document.getElementById(`qty-${productId}`);
+                const quantity = parseInt(quantityInput.value);
 
-                // Buscar el producto en todas las categorías
-                for (const category in products) {
-                    productToAdd = products[category].find(p => p.id === productId);
-                    if (productToAdd) break;
-                }
+                const productToAdd = allProducts.find(p => p.id === productId);
 
-                if (productToAdd) {
-                    cart.push(productToAdd);
-                    alert(`¡${productToAdd.name} ha sido añadido al carrito!`);
+                if (productToAdd && quantity > 0) {
+                    for (let i = 0; i < quantity; i++) {
+                        cart.push(productToAdd);
+                    }
+                    alert(`¡${quantity} unidad(es) de ${productToAdd.name} han sido añadida(s) al carrito!`);
                     updateCartCount();
+                } else {
+                    alert('Por favor, selecciona una cantidad válida (al menos 1).');
                 }
             }
         });
@@ -265,102 +294,6 @@
 
         // Renderizar los productos al cargar la página
         document.addEventListener('DOMContentLoaded', renderProducts);
-    </script>
-
-</body>
-</html>
-        }
-        footer {
-            background-color: #5c007a; /* Violeta oscuro principal */
-            color: #fff;
-            text-align: center;
-            padding: 1.5rem 0;
-            margin-top: 40px;
-            font-size: 0.9rem;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Boa Sorte</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Productos</a></li>
-                <li><a href="#">Contacto</a></li>
-                <li><a href="#" id="cart-link">Carrito (0)</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="container">
-        </main>
-
-    <footer>
-        <p>&copy; 2025 Boa Sorte. Todos los derechos reservados.</p>
-    </footer>
-
-    <script>
-        // Datos de productos
-        const products = [
-            { id: 1, name: 'Vela de Siete Potencias', description: 'Para invocar la fuerza y la protección de las 7 Potencias Africanas.', price: 12.50, image: 'https://via.placeholder.com/400x400/9370db/fff?text=Vela+7+Potencias' },
-            { id: 2, name: 'Velón de Abre Caminos', description: 'Ayuda a disipar obstáculos y atraer nuevas oportunidades.', price: 18.00, image: 'https://via.placeholder.com/400x400/ba55d3/fff?text=Velón+Abre+Caminos' },
-            { id: 3, name: 'Incienso de Ruda y Romero', description: 'Purificación y protección contra energías negativas. Aroma herbal.', price: 7.99, image: 'https://via.placeholder.com/400x400/b19cd9/333?text=Incienso+Ruda' },
-            { id: 4, name: 'Defumador de Limpieza Energética', description: 'Mezcla especial para limpiar ambientes y atraer la buena suerte.', price: 15.00, image: 'https://via.placeholder.com/400x400/c3b1e3/333?text=Defumador' },
-            { id: 5, name: 'Vela de San Miguel Arcángel', description: 'Protección divina, coraje y fuerza espiritual.', price: 10.00, image: 'https://via.placeholder.com/400x400/7b68ee/fff?text=Vela+San+Miguel' },
-            { id: 6, name: 'Velón de Amor y Unión', description: 'Para fortalecer lazos afectivos y atraer el amor verdadero.', price: 20.00, image: 'https://via.placeholder.com/400x400/dda0dd/fff?text=Velón+Amor' },
-            { id: 7, name: 'Incienso de Sándalo', description: 'Para la meditación, la calma y la elevación espiritual.', price: 6.50, image: 'https://via.placeholder.com/400x400/e6e6fa/333?text=Incienso+Sándalo' },
-            { id: 8, name: 'Hierbas para Baño de Descarga', description: 'Mezcla de hierbas para baños rituales de limpieza y purificación.', price: 9.25, image: 'https://via.placeholder.com/400x400/d8bfd8/333?text=Hierbas+Descarga' },
-            { id: 9, name: 'Palo Santo (Unidad)', description: 'Madera sagrada para purificación, limpieza y atraer energías positivas.', price: 5.00, image: 'https://via.placeholder.com/400x400/bbbbbb/fff?text=Palo+Santo' },
-            { id: 10, name: 'Esencia de Dinero y Abundancia', description: 'Aceite concentrado para atraer prosperidad económica.', price: 11.50, image: 'https://via.placeholder.com/400x400/ffd700/333?text=Esencia+Dinero' }
-        ];
-
-        const mainContainer = document.querySelector('.container');
-        const cartLink = document.getElementById('cart-link');
-
-        // Función para renderizar los productos
-        function renderProducts() {
-            mainContainer.innerHTML = ''; // Limpiar productos existentes si los hubiera
-            products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.classList.add('product-card');
-
-                productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <div class="product-details">
-                        <h3>${product.name}</h3>
-                        <p>${product.description}</p>
-                        <p class="price">$${product.price.toFixed(2)}</p>
-                        <button class="add-to-cart" data-id="${product.id}">Añadir al Carrito</button>
-                    </div>
-                `;
-                mainContainer.appendChild(productCard);
-            });
-        }
-
-        // Llamar a la función para mostrar los productos cuando el DOM esté cargado
-        document.addEventListener('DOMContentLoaded', renderProducts);
-
-        // Lógica del carrito (simplificada)
-        let cart = [];
-
-        mainContainer.addEventListener('click', (e) => {
-            if (e.target.classList.contains('add-to-cart')) {
-                const productId = parseInt(e.target.dataset.id);
-                const productToAdd = products.find(p => p.id === productId);
-
-                if (productToAdd) {
-                    cart.push(productToAdd);
-                    alert(`¡${productToAdd.name} ha sido añadido al carrito!`);
-                    updateCartCount();
-                }
-            }
-        });
-
-        function updateCartCount() {
-            cartLink.textContent = `Carrito (${cart.length})`;
-        }
     </script>
 
 </body>
